@@ -123,7 +123,7 @@ __local stack_t *push_queue(stack_t **head, const int n)
 	 empty_stack(y), FAIL)
 
 #define FAIL_STACK_UNDERFLOW(x, y, z) \
-	(fprintf(stderr, "L%u: cant %s, stack empty\n", x, y), \
+	(fprintf(stdout, "L%u: cant %s, stack empty\n", x, y), \
 	 empty_stack(z), FAIL)
 
 #define FAIL_ELEMENTS(x, y, z) \
