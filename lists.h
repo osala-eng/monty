@@ -126,6 +126,10 @@ __local stack_t *push_queue(stack_t **head, const int n)
 	(fprintf(stderr, "L%u: can't %s, stack empty\n", x, y), \
 	 empty_stack(z), FAIL)
 
+#define FAIL_POP(x, y, z) \
+	(fprintf(stderr, "L%u: can't %s,an empty stack\n", x, y), \
+	empty_stack(z), FAIL)
+
 #define FAIL_ELEMENTS(x, y, z) \
 	(fprintf(stderr, "L%u: can't %s, stack too short\n", x, y), \
 	 empty_stack(z), FAIL)

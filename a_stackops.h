@@ -64,7 +64,7 @@ __local void _pop(stack_t **stack, uint line_number)
 
 KILL:	fclose(s.fp);
 	free(s.line);
-	FAIL_STACK_UNDERFLOW(line_number, "pop", *stack);
+	FAIL_POP(line_number, "pop", *stack);
 }
 
 /**
