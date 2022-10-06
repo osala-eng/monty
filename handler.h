@@ -13,6 +13,10 @@ __local
 void (*get(char *opcode))(stack_t **stack, uint line_number)
 {
 	instruction_t opt[] = {
+	{"pchar", pchar},
+	{"rotl", rotl},
+	{"rotr", rotr},
+	{"pstr", pstr},
 	{"push", push},
 	{"pall", pall},
 	{"pint", pint},
@@ -60,6 +64,14 @@ __local int handler(int ac, char **av)
 		for (s.token = strtok(s.line, s.delim); s.token;)
 		{
 			fi(s.token[0] == '#') break;
+			if(!strcmp(s.token, "stack"))
+			{	s.mode = STACK;
+				break;
+			}
+			if (!strcmp(s.token, "queue"))
+			{	s.mode = QUEUE;
+				break;
+			}
 			if (get(s.token))
 				get(s.token)(&stack, l_num);
 			else
@@ -68,7 +80,6 @@ __local int handler(int ac, char **av)
 				empty_stack(stack);
 				FAIL_OPCODE(l_num, s.token);
 			}
-			break;
 		}
 	}
 	empty_stack(stack);

@@ -22,6 +22,16 @@
 typedef unsigned int uint;
 
 /**
+ * enum modes - operation modes
+ * @stack: stack mode
+ * @queue: queue mode
+ */
+enum modes
+{
+	STACK,
+	QUEUE
+};
+/**
  * struct state_s - state variable
  * @delim: delim
  * @token: token
@@ -34,6 +44,7 @@ typedef struct state_s
 	char *delim;
 	FILE *fp;
 	char *line;
+	int mode
 } state_t;
 
 /**
@@ -70,7 +81,8 @@ state_t s = {
 	NULL,
 	"\n\t\a\r ;:",
 	NULL,
-	NULL
+	NULL,
+	STACK
 };
 
 #endif
