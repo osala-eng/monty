@@ -36,3 +36,6 @@ convert back to ascii
 
 output the two separately
 >>[.<<]<[<<]>>.
+
+add new line
+>>>>>++++++++++.
