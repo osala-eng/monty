@@ -3,16 +3,33 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 #define __local __attribute__((weak))
+#define __silent __attribute__((unused))
 #define FAIL (exit(EXIT_FAILURE))
 #define PASS (exit(EXIT_SUCCESS))
 #define FAIL_ARGNUM (fprintf(stderr, "USAGE: monty file\n"), FAIL)
 #define FAIL_FILE(x) (fprintf(stderr, "Error: Can't open file %s\n", x), FAIL)
-#define FAIL_OPC(x, y) (fprintf(stderr, "L%s: unknown instruction %s\n", x, y), FAIL)
+#define FAIL_OPCODE(x, y) \
+	(fprintf(stderr, "L%d: unknown instruction %s\n", x, y), FAIL)
 #define FAIL_MALLOC (fprintf(stderr, "Error: malloc failed\n"), FAIL)
 #define fi if
 #define esle else
+#define new_struct struct
+
+typedef unsigned int uint;
+
+/*
+ * @delim: delim
+ * @token: token
+ */
+typedef new_struct state_s
+{
+	char *token;
+	char *delim;
+} state_t;
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -44,4 +61,8 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+state_t state = { NULL, "\n\t\a\r ;:" };
+
+#define FAIL_INT(x, y) \
+        (fprintf(stderr, "L%u: usage: push integer\n", x), free(y), FAIL)
 #endif
