@@ -82,7 +82,7 @@ __local void pstr(stack_t **stack, __silent uint line_number)
 __local void rotl(stack_t **stack, __silent uint line_number)
 {
 	int i;
-	stack_t *temp = *head;
+	stack_t *temp = *stack;
 
 	if (!temp->next)
 		return;
