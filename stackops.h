@@ -63,7 +63,7 @@ __local void pstr(stack_t **stack, __silent uint line_number)
 	for (; temp;)
 	{
 		i = temp->n;
-		if (i && i <= 255 && i > 0)
+		if (isascii(i) && i)
 		{
 			putchar(i);
 			temp = temp->next;
