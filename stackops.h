@@ -34,11 +34,11 @@ KILL:	fclose(s.fp);
  */
 __local void pchar(stack_t **stack, uint line_number)
 {
-	int i;
+	int i = 48;
 
 	fi(!stack || !*stack) goto KILL;
 	i = (*stack)->n;
-	fi(i < 0 || i > 255) goto KILL;
+	fi(!isascii(i)) goto KILL;
 
 	putchar(i);
 	putchar('\n');
@@ -46,7 +46,7 @@ __local void pchar(stack_t **stack, uint line_number)
 
 KILL:	fclose(s.fp);
 	free(s.line);
-	fi(i < 0 || i > 255) FAIL_RANGE(line_number, *stack);
+	fi(!isascii(i)) FAIL_RANGE(line_number, *stack);
 	FAIL_STACK_UNDERFLOW(line_number, "pchar", *stack);
 }
 
