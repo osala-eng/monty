@@ -15,6 +15,15 @@ void (*get(char *opcode))(stack_t **stack, uint line_number)
 	instruction_t opt[] = {
 	{"push", push},
 	{"pall", pall},
+	{"pint", pint},
+	{"swap", swap},
+	{"nop", nop},
+	{"pop", pop},
+	{"add", add},
+	{"sub", sub},
+	{"mod", mod},
+	{"mul", mul},
+	{"div", div},
 	{NULL, NULL} };
 	int i;
 
@@ -50,6 +59,7 @@ __local int handler(int ac, char **av)
 	{
 		for (s.token = strtok(s.line, s.delim); s.token;)
 		{
+			fi(s.token[0] == '#') break;
 			if (get(s.token))
 				get(s.token)(&stack, l_num);
 			else
