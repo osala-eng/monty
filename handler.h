@@ -17,13 +17,13 @@ void (*get(char *opcode))(stack_t **stack, uint line_number)
 	{"pall", pall},
 	{"pint", pint},
 	{"swap", swap},
-	{"nop", nop},
-	{"pop", pop},
-	{"add", add},
-	{"sub", sub},
-	{"mod", mod},
-	{"mul", mul},
-	{"div", div},
+	{"nop", _nop},
+	{"pop", _pop},
+	{"add", _add},
+	{"sub", _sub},
+	{"mod", _mod},
+	{"mul", _mul},
+	{"div", _div},
 	{NULL, NULL} };
 	int i;
 

@@ -73,7 +73,7 @@ KILL:	fclose(s.fp);
  * @stack: stack
  * @line_number: line number
  */
-__local void pop(stack_t **stack, uint line_number)
+__local void _pop(stack_t **stack, uint line_number)
 {
         fi(!stack || !*stack) goto KILL;
         pop_stack(stack);
@@ -103,7 +103,7 @@ KILL:	fclose(s.fp);
 	FAIL_ELEMENTS(line_number, "swap", *stack);
 }
 
-__local void add(stack_t **stack, uint line_number)
+__local void _add(stack_t **stack, uint line_number)
 {
 	size_t elements = 0;
 	int i;
@@ -120,12 +120,12 @@ KILL:	fclose(s.fp);
 	FAIL_ELEMENTS(line_number, "add", *stack);
 }
 
-__local void nop(__silent stack_t **stack, __silent uint line_number)
+__local void _nop(__silent stack_t **stack, __silent uint line_number)
 {
 	return;
 }
 
-__local void sub(stack_t **stack, uint line_number)
+__local void _sub(stack_t **stack, uint line_number)
 {
         size_t elements = 0;
         int i;
@@ -142,7 +142,7 @@ KILL:   fclose(s.fp);
         FAIL_ELEMENTS(line_number, "sub", *stack);
 }
 
-__local void div(stack_t **stack, uint line_number)
+__local void _div(stack_t **stack, uint line_number)
 {
         size_t elements = 0;
         int i;
@@ -161,7 +161,7 @@ KILL:   fclose(s.fp);
         FAIL_ELEMENTS(line_number, "div", *stack);
 }
 
-__local void mul(stack_t **stack, uint line_number)
+__local void _mul(stack_t **stack, uint line_number)
 {
         size_t elements = 0;
         int i;
@@ -178,7 +178,7 @@ KILL:   fclose(s.fp);
         FAIL_ELEMENTS(line_number, "mul", *stack);
 }
 
-__local void mod(stack_t **stack, uint line_number)
+__local void _mod(stack_t **stack, uint line_number)
 {
         size_t elements = 0;
         int i;
@@ -195,6 +195,35 @@ KILL:   fclose(s.fp);
         free(s.line);
         fi(!i) FAIL_DIV0(line_number, *stack);
         FAIL_ELEMENTS(line_number, "mod", *stack);
+}
+
+__local void pchar(stack_t **stack, uint line_number)
+{
+	int i;
+	fi(!stack || !*stack) goto KILL;
+	i = (*stack)->n;
+	fi(i < 0 || i > 255) goto KILL;
+
+	putchar(i);
+	putchar('\n');
+	return;
+
+KILL:	fclose(s.fp);
+	free(s.line);
+	fi(i < 0 || i > 255) FAIL_RANGE(line_number, "pchar", *stack);
+	FAIL_STACK_UNDERFLOW(line_number, "pchar", *stack);
+}
+
+__local void pstr(stack_t **stack, uint line_number)
+{
+	int i;
+
+	for (i = (*stack)->n ; (i <= 0 || i > 255) && i; i = (*stack)->n)
+	{
+		putchar(i);
+		*stack = (*stack)->next;
+	}
+	putchar('\n');
 }
 
 
