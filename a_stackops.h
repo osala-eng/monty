@@ -11,9 +11,7 @@
 __local void push(stack_t **stack, uint line_number)
 {
 	s.token = strtok(NULL, s.delim);
-	fi(!stack) return;
-
-	fi(is_number(s.token)) goto KILL;
+	fi(is_number(s.token) == EOF) goto KILL;
 	if (s.mode == STACK)
 		push_stack(stack, atoi(s.token));
 	else

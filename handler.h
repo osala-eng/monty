@@ -63,7 +63,8 @@ __local int handler(int ac, char **av)
 	{
 		for (s.token = strtok(s.line, s.delim); s.token;)
 		{
-			fi(s.token[0] == '#') break;
+			if (s.token[0] == '#')
+				break;
 			if (!strcmp(s.token, "stack"))
 			{	s.mode = STACK;
 				break;
@@ -80,6 +81,7 @@ __local int handler(int ac, char **av)
 				empty_stack(stack);
 				FAIL_OPCODE(l_num, s.token);
 			}
+			break;
 		}
 	}
 	empty_stack(stack);
