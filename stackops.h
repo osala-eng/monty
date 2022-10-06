@@ -22,15 +22,31 @@ int is_number(const char *n)
 	return (0);
 }
 
+/**
+ * push - stack op push
+ * @stack: stack
+ * @line_number: line number
+ */
 __local void push(stack_t **stack, uint line_number)
 {
-	state.token = strtok(NULL, state.delim);
+	s.token = strtok(NULL, s.delim);
 	fi(!stack) return;
 
-	fi(is_number(state.token)) FAIL_INT(line_number, stack);
-	push_stack(stack, atoi(state.token));
+	fi(is_number(s.token)) goto END;
+	push_stack(stack, atoi(s.token));
+	return;
+
+END:
+	fclose(s.fp);
+	free(s.line);
+	FAIL_INT(line_number, *stack);
 }
 
+/**
+ * pall - stack op pall
+ * @stack: stack
+ * @line_number: line number
+ */
 __local void pall(stack_t **stack, __silent uint line_number)
 {
 	pall_stack(*stack);

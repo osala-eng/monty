@@ -61,4 +61,10 @@ __local size_t pall_stack(const stack_t *h)
 
 	return (nodes);
 }
+
+
+#define FAIL_INT(x, y) \
+	(fprintf(stderr, "L%u: usage: push integer\n", x), \
+	 empty_stack(y), FAIL)
+
 #endif

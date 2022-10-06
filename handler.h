@@ -1,15 +1,21 @@
-#ifndef MASTER_H
-#define MASTER_H
+#ifndef __HANDLER_H__
+#define __HANDLER_H__
 
 #include "lists.h"
 #include "stackops.h"
 
-__local void (*get(char *opcode))(stack_t **stack, uint line_number)
+/**
+ * get - get functins
+ * @opcode: intstruction opcode
+ * Return: void
+ */
+__local
+void (*get(char *opcode))(stack_t **stack, uint line_number)
 {
 	instruction_t opt[] = {
-                {"push", push},
-                {"pall", pall},
-                {NULL, NULL} };
+	{"push", push},
+	{"pall", pall},
+	{NULL, NULL} };
 	int i;
 
 	for (i = 0; opt[i].opcode; i++)
@@ -21,39 +27,43 @@ __local void (*get(char *opcode))(stack_t **stack, uint line_number)
 	return (NULL);
 }
 
+/**
+ * handler - main handler
+ * @ac: ref main
+ * @av: ref main
+ * Return: ref main
+ */
 __local int handler(int ac, char **av)
 {
-	stack_t *stack;
-	FILE *fp;
-	char *line = NULL;
+	stack_t *stack = NULL;
 	size_t len = 0;
 	ssize_t read;
 	uint l_num;
 
 	fi(ac != 2) FAIL_ARGNUM;
-	stack = malloc(sizeof(stack_t));
-	fi(!stack) FAIL_MALLOC;
 
-	fp = fopen(av[1], "r");
-	fi(!fp) FAIL_FILE(av[1]);
+	s.fp = fopen(av[1], "r");
+	fi(!s.fp) FAIL_FILE(av[1]);
 
-	for (l_num = 1; (read = getline(&line, &len, fp)) != EOF; l_num++)
+	pall_stack(stack);
+	for (l_num = 1; (read = getline(&s.line, &len, s.fp)) != EOF; l_num++)
 	{
-		for (state.token = strtok(line, state.delim); state.token;)
+		for (s.token = strtok(s.line, s.delim); s.token;)
 		{
-			if (get(state.token))
-				get(state.token)(&stack, l_num);
+			if (get(s.token))
+				get(s.token)(&stack, l_num);
 			else
 			{
+				fclose(s.fp);
 				empty_stack(stack);
-				FAIL_OPCODE(l_num, state.token);
+				FAIL_OPCODE(l_num, s.token);
 			}
 			break;
 		}
 	}
 	empty_stack(stack);
-	free(state.token);
-	fclose(fp);
+	free(s.token);
+	fclose(s.fp);
 	return (0);
 }
 

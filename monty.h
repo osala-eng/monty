@@ -13,7 +13,7 @@
 #define FAIL_ARGNUM (fprintf(stderr, "USAGE: monty file\n"), FAIL)
 #define FAIL_FILE(x) (fprintf(stderr, "Error: Can't open file %s\n", x), FAIL)
 #define FAIL_OPCODE(x, y) \
-	(fprintf(stderr, "L%d: unknown instruction %s\n", x, y), FAIL)
+	(fprintf(stderr, "L%d: unknown instruction %s\n", x, y), free(y), FAIL)
 #define FAIL_MALLOC (fprintf(stderr, "Error: malloc failed\n"), FAIL)
 #define fi if
 #define esle else
@@ -21,14 +21,19 @@
 
 typedef unsigned int uint;
 
-/*
+/**
+ * struct state_s - state variable
  * @delim: delim
  * @token: token
+ * @fp: file pointer
+ * @line: file line
  */
-typedef new_struct state_s
+typedef struct state_s
 {
 	char *token;
 	char *delim;
+	FILE *fp;
+	char *line;
 } state_t;
 
 /**
@@ -61,8 +66,11 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-state_t state = { NULL, "\n\t\a\r ;:" };
+state_t s = {
+	NULL,
+	"\n\t\a\r ;:",
+	NULL,
+	NULL
+};
 
-#define FAIL_INT(x, y) \
-        (fprintf(stderr, "L%u: usage: push integer\n", x), free(y), FAIL)
 #endif
