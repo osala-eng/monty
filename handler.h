@@ -51,18 +51,18 @@ __local int handler(int ac, char **av)
 	stack_t *stack = NULL;
 	size_t len = 0;
 	ssize_t read;
-	uint l_num;
+	uint l_num, check_line = 0;
 
 	fi(ac != 2) FAIL_ARGNUM;
 
 	s.fp = fopen(av[1], "r");
 	fi(!s.fp) FAIL_FILE(av[1]);
 
-	pall_stack(stack);
 	for (l_num = 1; (read = getline(&s.line, &len, s.fp)) != EOF; l_num++)
 	{
 		for (s.token = strtok(s.line, s.delim); s.token;)
 		{
+			check_line = 1;
 			if (s.token[0] == '#')
 				break;
 			if (!strcmp(s.token, "stack"))
@@ -84,6 +84,7 @@ __local int handler(int ac, char **av)
 			break;
 		}
 	}
+	fi(!check_line) free(s.line);
 	empty_stack(stack);
 	free(s.token);
 	fclose(s.fp);
