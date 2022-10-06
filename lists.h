@@ -84,27 +84,12 @@ __local size_t pall_stack(const stack_t *h)
 }
 
 /**
- * dlistint_len - print doubly linked list
- * @h: list
- * Return: number of nodes
- */
-size_t len(const stack_t *h)
-{
-	size_t nodes = 0;
-
-	for (; h; nodes++)
-		h = h->next;
-
-	return (nodes);
-}
-
-/**
  * push_queue - Adds a new node at the end of a list.
  * @head: A pointer to the head of the list.
  * @n: The integer for the new node to contain.
  *
  * Return: If the function fails - NULL.
- *         Otherwise - the address of the new node.
+ *	Otherwise - the address of the new node.
  */
 __local stack_t *push_queue(stack_t **head, const int n)
 {
@@ -138,7 +123,7 @@ __local stack_t *push_queue(stack_t **head, const int n)
 	 empty_stack(y), FAIL)
 
 #define FAIL_STACK_UNDERFLOW(x, y, z) \
-        (fprintf(stderr, "L%u: cant %s, stack empty\n", x, y), \
+	(fprintf(stderr, "L%u: cant %s, stack empty\n", x, y), \
 	 empty_stack(z), FAIL)
 
 #define FAIL_ELEMENTS(x, y, z) \
@@ -146,11 +131,11 @@ __local stack_t *push_queue(stack_t **head, const int n)
 	 empty_stack(z), FAIL)
 
 #define FAIL_DIV0(x, y) \
-        (fprintf(stderr, "L%u: division by zero\n", x), \
-         empty_stack(y), FAIL)
+	(fprintf(stderr, "L%u: division by zero\n", x), \
+	empty_stack(y), FAIL)
 
 #define FAIL_RANGE(x, y) \
-        (fprintf(stderr, "L%u: can't pchar, value out of range\n", x), \
-         empty_stack(y), FAIL)
+	(fprintf(stderr, "L%u: can't pchar, value out of range\n", x), \
+	empty_stack(y), FAIL)
 
 #endif

@@ -23,8 +23,8 @@ typedef unsigned int uint;
 
 /**
  * enum modes - operation modes
- * @stack: stack mode
- * @queue: queue mode
+ * @STACK: stack mode
+ * @QUEUE: queue mode
  */
 enum modes
 {
@@ -37,6 +37,7 @@ enum modes
  * @token: token
  * @fp: file pointer
  * @line: file line
+ * @mode: operation mode
  */
 typedef struct state_s
 {
@@ -44,7 +45,7 @@ typedef struct state_s
 	char *delim;
 	FILE *fp;
 	char *line;
-	int mode
+	int mode;
 } state_t;
 
 /**
@@ -84,5 +85,40 @@ state_t s = {
 	NULL,
 	STACK
 };
+
+
+/**
+ * len - print doubly linked list
+ * @h: list
+ * Return: number of nodes
+ */
+__local size_t len(const stack_t *h)
+{
+	size_t nodes = 0;
+
+	for (; h; nodes++)
+		h = h->next;
+
+	return (nodes);
+}
+
+/**
+ * is_number - iterates each character of string to check of isdigit
+ * @n: integer
+ * Return: 0 if is number, else -1 if not
+ */
+__local int is_number(const char *n)
+{
+	int i = 0;
+
+	if (*n == '-')
+		i = 1;
+	for (; *(n + i) != '\0'; i++)
+	{
+		if (isdigit(*(n + i)) == 0)
+		return (-1);
+	}
+	return (0);
+}
 
 #endif
