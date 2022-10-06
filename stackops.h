@@ -82,9 +82,11 @@ __local void pstr(stack_t **stack, __silent uint line_number)
 __local void rotl(stack_t **stack, __silent uint line_number)
 {
 	int i;
-	stack_t *temp = *stack;
+	size_t _len = 0;
 
-	if (!temp->next)
+	_len = len(*stack);
+
+	if (_len < 2)
 		return;
 
 	i = (*stack)->n;
@@ -99,9 +101,11 @@ __local void rotl(stack_t **stack, __silent uint line_number)
  */
 __local void rotr(stack_t **stack, __silent uint line_number)
 {
+	size_t _len = 0;
 	stack_t *temp = *stack;
 
-	if (!(*stack)->next)
+	_len = len(*stack);
+	if (_len < 2)
 		return;
 
 	for (; temp->next;)
